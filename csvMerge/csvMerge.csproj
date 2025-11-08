@@ -23,4 +23,10 @@
     <Content Include="csvMerge.ico" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="README.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

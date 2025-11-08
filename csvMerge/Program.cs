@@ -76,7 +76,7 @@ class Program
                 Directory.CreateDirectory(outputFolder);
                 Directory.CreateDirectory(Path.GetDirectoryName(logFile));
 
-                Log("Konfiguracja wczytana pomyślnie");
+                Log($"{DateTime.Now} - Konfiguracja wczytana pomyślnie");
                 Log($"Folder programu: {programFolder}");
                 Log($"InputFolder: {inputFolder}");
                 Log($"OutputFolder: {outputFolder}");
@@ -92,7 +92,7 @@ class Program
                 return false;
             }
         }
-        Log("Program uruchomiony i działa w tle...");
+        Log("Program uruchomiony i działa w tle...\n");
 
         while (true)
         {

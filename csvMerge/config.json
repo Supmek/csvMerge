@@ -1,7 +1,0 @@
-{
-  "InputFolder": "C:\\Users\\tkempa\\Desktop\\csvMerge\\input",
-  "OutputFolder": "C:\\Users\\tkempa\\Desktop\\csvMerge\\output",
-  "FilePattern": "*.csv",
-  "LogFile": "C:\\Users\\tkempa\\Desktop\\csvMerge\\csvMerge.log",
-  "CheckInterval": 5000
-}

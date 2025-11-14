@@ -9,6 +9,7 @@ class Program
     private static string inputFolder;
     private static string outputFolder;
     private static string filePattern;
+    private static bool modifyLastColumns;
     private static string logFile;
     private static int checkInterval;
 
@@ -18,6 +19,7 @@ class Program
         public string InputFolder { get; set; }
         public string OutputFolder { get; set; }
         public string FilePattern { get; set; }
+        public bool ModifyLastColumns { get; set; }
         public string LogFile { get; set; }
         public int CheckInterval { get; set; }
     }
@@ -47,6 +49,7 @@ class Program
                         InputFolder = Path.Combine(programFolder, "input"),
                         OutputFolder = Path.Combine(programFolder, "output"),
                         FilePattern = "*.csv",
+                        ModifyLastColumns = false,
                         LogFile = Path.Combine(programFolder, "csvMerge.log"),
                         CheckInterval = 5000
                     };
@@ -68,6 +71,7 @@ class Program
                 inputFolder = config.InputFolder;
                 outputFolder = config.OutputFolder;
                 filePattern = config.FilePattern;
+                modifyLastColumns = config.ModifyLastColumns;
                 logFile = config.LogFile;
                 checkInterval = config.CheckInterval;
 
@@ -81,6 +85,7 @@ class Program
                 Log($"InputFolder: {inputFolder}");
                 Log($"OutputFolder: {outputFolder}");
                 Log($"FilePattern: {filePattern}");
+                Log($"ModifyLastColumns: {modifyLastColumns}");
                 Log($"LogFile: {logFile}");
                 Log($"CheckInterval: {checkInterval}ms");
 
@@ -146,7 +151,28 @@ class Program
 
         using (var writer = new StreamWriter(outputFilePath, append: false))
         {
-            message += "\n-------> Łączenie plików.\n";
+            if (modifyLastColumns)
+            {
+                message += "-------> Modyfikacja ostatnich kolumn.\n";
+                foreach (var plik in pliki)
+                {
+                    try
+                    {
+                        var linie = File.ReadAllLines(plik);
+                        for (int i = 0; i < linie.Length; i++)
+                        {
+                            linie[i] += ";0;1"; // Dodaj dwie nowe kolumny z wartościami 0 i 1
+                        }
+                        File.WriteAllLines(plik, linie);
+                        message += $"       Zmodyfikowano: {Path.GetFileName(plik)}\n";
+                    }
+                    catch (Exception ex)
+                    {
+                        message += $"Błąd przy modyfikacji {Path.GetFileName(plik)}: {ex.Message}\n";
+                    }
+                }
+            } 
+                message += "\n-------> Łączenie plików.\n";
             foreach (var plik in pliki)
             {
                 try
